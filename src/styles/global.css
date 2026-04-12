@@ -1,0 +1,33 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Pretendard', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background: #f3eeff;
+  color: #1A0A3B;
+}
+
+button {
+  font-family: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+:root {
+  --primary: #6C2BD9;
+  --primary-light: #9B5CF6;
+  --primary-bg: #f3eeff;
+  --primary-bg2: #ede4ff;
+  --text-main: #1A0A3B;
+  --text-sub: #8B6FB5;
+  --text-muted: #9B8EC4;
+  --card-shadow: 0 4px 20px rgba(108, 43, 217, 0.12);
+}
