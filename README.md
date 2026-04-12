@@ -1,73 +1,37 @@
-# React + TypeScript + Vite
+# 직장인 대시보드
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+토스 앱인토스(AIT) 미니앱. 출퇴근 시간, 연봉, 월급날 기반으로 직장인의 하루를 한눈에 보여주는 대시보드 앱.
 
-Currently, two official plugins are available:
+## 기능
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- 오늘 근무 진행률 및 퇴근까지 남은 시간
+- 이번 달 실수령액 기준 시급/일급 계산
+- 월급날까지 D-day 및 예상 잔여 생활비
+- 공휴일 인식 (오늘 쉬는 날 여부)
+- 설정: 근무시간, 연봉, 월급날, 고정지출
+- 인앱광고 (배너, 전면형, 리워드)
 
-## React Compiler
+## 기술 스택
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React + TypeScript + Vite
+- 앱인토스(AIT) 웹 프레임워크
 
-## Expanding the ESLint configuration
+## 개발
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 빌드 및 배포
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npx ait build     # .ait 번들 생성
 ```
+
+AIT 콘솔(https://apps-in-toss.toss.im)에서 .ait 파일 업로드 후 심사 요청.
+
+## 에셋
+
+- `assets/` — AIT 콘솔 등록용 스토어 에셋 (아이콘, 스크린샷, 썸네일)
+- `public/` — 빌드 포함 정적 파일 (favicon, 앱 아이콘)
