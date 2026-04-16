@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { loadData } from '../utils/storage';
 import { calcNetMonthly, calcPerMinute } from '../utils/earnings';
 import { getNextHoliday, getDaysUntil } from '../data/holidays';
-import { BannerAd } from '../utils/ads';
+import { BannerAd, showInterstitialAd } from '../utils/ads';
 
 const STORAGE_KEY = 'work_dashboard_settings';
 
@@ -35,6 +35,13 @@ export default function IndexPage() {
 
   useEffect(() => {
     setSettings(loadData<Settings>(STORAGE_KEY, DEFAULT_SETTINGS));
+    // 하루 1회 전면광고
+    const today = new Date().toISOString().slice(0, 10);
+    const lastShown = localStorage.getItem('work_dashboard_ad_date');
+    if (lastShown !== today) {
+      localStorage.setItem('work_dashboard_ad_date', today);
+      showInterstitialAd();
+    }
   }, []);
 
   useEffect(() => {

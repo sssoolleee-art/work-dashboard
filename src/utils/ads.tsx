@@ -9,6 +9,7 @@ export const AD_ID = {
 
 export function showInterstitialAd(): Promise<void> {
   return new Promise((resolve) => {
+    if (!loadFullScreenAd.isSupported()) { resolve(); return; }
     const cleanup = loadFullScreenAd({
       options: { adGroupId: AD_ID.interstitial },
       onEvent: (event) => {
@@ -24,12 +25,14 @@ export function showInterstitialAd(): Promise<void> {
       },
       onError: () => resolve(),
     });
-    setTimeout(() => { cleanup(); resolve(); }, 30000);
+    setTimeout(() => { cleanup(); resolve(); }, 10000);
   });
 }
 
 export function showRewarded(): Promise<boolean> {
   return new Promise((resolve) => {
+    if (!loadFullScreenAd.isSupported()) { resolve(false); return; }
+    let earned = false;
     const cleanup = loadFullScreenAd({
       options: { adGroupId: AD_ID.rewarded },
       onEvent: (event) => {
@@ -37,8 +40,8 @@ export function showRewarded(): Promise<boolean> {
           showFullScreenAd({
             options: { adGroupId: AD_ID.rewarded },
             onEvent: (e) => {
-              if (e.type === 'userEarnedReward') { cleanup(); resolve(true); }
-              else if (e.type === 'dismissed') { cleanup(); resolve(false); }
+              if (e.type === 'userEarnedReward') earned = true;
+              if (e.type === 'dismissed') { cleanup(); resolve(earned); }
             },
             onError: () => { cleanup(); resolve(false); },
           });
@@ -46,7 +49,7 @@ export function showRewarded(): Promise<boolean> {
       },
       onError: () => resolve(false),
     });
-    setTimeout(() => { cleanup(); resolve(false); }, 30000);
+    setTimeout(() => { cleanup(); resolve(false); }, 15000);
   });
 }
 
