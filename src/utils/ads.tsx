@@ -56,9 +56,11 @@ export function showRewarded(): Promise<boolean> {
 export function BannerAd() {
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    if (!ref.current || !TossAds.attachBanner.isSupported()) return;
-    const result = TossAds.attachBanner(AD_ID.banner, ref.current);
-    return () => result.destroy();
+    if (!ref.current) return;
+    try {
+      const result = TossAds.attachBanner(AD_ID.banner, ref.current);
+      return () => result.destroy();
+    } catch {}
   }, []);
   return <div ref={ref} style={{ width: '100%', minHeight: 50 }} />;
 }

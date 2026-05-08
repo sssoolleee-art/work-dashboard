@@ -32,6 +32,7 @@ export default function IndexPage() {
   const [settings, setSettings] = useState<Settings>(DEFAULT_SETTINGS);
   const [now, setNow] = useState(new Date());
   const [showShare, setShowShare] = useState(false);
+  const [rewardLoading, setRewardLoading] = useState(false);
 
   useEffect(() => {
     setSettings(loadData<Settings>(STORAGE_KEY, DEFAULT_SETTINGS));
@@ -262,10 +263,34 @@ export default function IndexPage() {
             fontWeight: 700,
             color: '#1E40AF',
             cursor: 'pointer',
-            marginBottom: 20,
+            marginBottom: 10,
           }}
         >
           {showShare ? '클립보드에 복사됐어요' : '결과 공유하기'}
+        </button>
+
+        {/* 리워드 광고 버튼 */}
+        <button
+          onClick={async () => {
+            setRewardLoading(true);
+            await showInterstitialAd();
+            setRewardLoading(false);
+          }}
+          disabled={rewardLoading}
+          style={{
+            width: '100%',
+            background: rewardLoading ? '#F3F4F6' : '#EFF6FF',
+            border: '1.5px solid #BFDBFE',
+            borderRadius: 14,
+            padding: '14px 0',
+            fontSize: 14,
+            fontWeight: 600,
+            color: rewardLoading ? '#9CA3AF' : '#3B82F6',
+            cursor: rewardLoading ? 'default' : 'pointer',
+            marginBottom: 20,
+          }}
+        >
+          {rewardLoading ? '광고 불러오는 중...' : '광고 보고 개발자 응원하기'}
         </button>
       </div>
 
