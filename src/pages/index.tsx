@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { loadData } from '../utils/storage';
 import { calcNetMonthly, calcPerMinute } from '../utils/earnings';
 import { getNextHoliday, getDaysUntil } from '../data/holidays';
-import { BannerAd, showInterstitialAd } from '../utils/ads';
+import { BannerAd, showInterstitialAd, isAdFree, restoreAdFree, buyAdFree } from '../utils/ads';
 
 const STORAGE_KEY = 'work_dashboard_settings';
 
@@ -33,13 +33,16 @@ export default function IndexPage() {
   const [now, setNow] = useState(new Date());
   const [showShare, setShowShare] = useState(false);
   const [rewardLoading, setRewardLoading] = useState(false);
+  const [adFree, setAdFree] = useState(isAdFree());
+  const [purchasing, setPurchasing] = useState(false);
 
   useEffect(() => {
     setSettings(loadData<Settings>(STORAGE_KEY, DEFAULT_SETTINGS));
+    restoreAdFree(() => setAdFree(true));
     // 하루 1회 전면광고
     const today = new Date().toISOString().slice(0, 10);
     const lastShown = localStorage.getItem('work_dashboard_ad_date');
-    if (lastShown !== today) {
+    if (lastShown !== today && !isAdFree()) {
       localStorage.setItem('work_dashboard_ad_date', today);
       showInterstitialAd();
     }
@@ -157,6 +160,22 @@ export default function IndexPage() {
           설정
         </button>
       </div>
+
+      {/* IAP 버튼 */}
+      {!adFree && (
+        <div style={{ padding: '10px 16px', background: '#EFF6FF' }}>
+          <button
+            onClick={() => { setPurchasing(true); buyAdFree(() => setAdFree(true), () => setPurchasing(false)); }}
+            disabled={purchasing}
+            style={{
+              width: '100%', padding: '12px', borderRadius: 12, border: 'none',
+              background: '#DBEAFE', color: '#1E40AF', fontSize: 14, fontWeight: 700, cursor: 'pointer',
+            }}
+          >
+            {purchasing ? '처리 중...' : '광고 없이 즐기기 ₩990'}
+          </button>
+        </div>
+      )}
 
       <div style={{ padding: '20px 16px 0' }}>
         {/* 퇴근 카운트다운 Hero */}
@@ -295,9 +314,11 @@ export default function IndexPage() {
       </div>
 
       {/* 하단 배너 */}
-      <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, background: '#fff', zIndex: 10 }}>
-        <BannerAd />
-      </div>
+      {!adFree && (
+        <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, background: '#fff', zIndex: 10 }}>
+          <BannerAd />
+        </div>
+      )}
     </div>
   );
 }
