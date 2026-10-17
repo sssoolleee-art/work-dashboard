@@ -4,6 +4,7 @@ import { loadData } from '../utils/storage';
 import { calcNetMonthly, calcPerMinute } from '../utils/earnings';
 import { getNextHoliday, getDaysUntil } from '../data/holidays';
 import { BannerAd, showInterstitialAd, isAdFree, restoreAdFree, buyAdFree } from '../utils/ads';
+import { PushConsent, SubsidyPromo } from '../utils/growth';
 
 const STORAGE_KEY = 'work_dashboard_settings';
 
@@ -308,6 +309,8 @@ export default function IndexPage() {
       </div>
 
       {/* 하단 배너 */}
+      <PushConsent templateCode="workdashboard-weekly" label="🔔 매주 월요일 오전 9시 공휴일 알림 받기" storageKey="work_push_agreed" />
+      <SubsidyPromo from="workdashboard" />
       {!adFree && (
         <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, background: '#fff', zIndex: 10 }}>
           <BannerAd />
