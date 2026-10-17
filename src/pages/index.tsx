@@ -39,13 +39,7 @@ export default function IndexPage() {
   useEffect(() => {
     setSettings(loadData<Settings>(STORAGE_KEY, DEFAULT_SETTINGS));
     restoreAdFree(() => setAdFree(true));
-    // 하루 1회 전면광고
-    const today = new Date().toISOString().slice(0, 10);
-    const lastShown = localStorage.getItem('work_dashboard_ad_date');
-    if (lastShown !== today && !isAdFree()) {
-      localStorage.setItem('work_dashboard_ad_date', today);
-      showInterstitialAd();
-    }
+    // 앱 진입 직후 전면광고는 예상하기 어려운 시점이라 노출하지 않음 (검수 정책)
   }, []);
 
   useEffect(() => {

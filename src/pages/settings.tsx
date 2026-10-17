@@ -56,12 +56,6 @@ export default function SettingsPage() {
         gap: 12,
         position: 'sticky', top: 0, zIndex: 10,
       }}>
-        <button
-          onClick={() => navigate('/')}
-          style={{ background: 'none', border: 'none', color: '#fff', fontSize: 22, cursor: 'pointer', padding: 0 }}
-        >
-          ←
-        </button>
         <span style={{ color: '#fff', fontSize: 16, fontWeight: 700 }}>설정</span>
       </div>
 
